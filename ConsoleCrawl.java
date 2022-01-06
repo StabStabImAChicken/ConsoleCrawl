@@ -120,15 +120,13 @@ public class ConsoleCrawl{
         if (hp <= 0){
             System.out.println("YOU DIED\n" + 
                                 "Max room: " + rooms);
-            exit();
+            System.exit(0);
         }else {
             System.out.println("You take " + n + " damage!");
         }
     }
 
 
-    private static void exit() {
-    }
 
 
     //this is just a little function that will check to see if an item or spell is in the inventory
