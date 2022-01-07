@@ -1,13 +1,14 @@
 //Console Crawl
-//property of [Redacted.ink]
+//property of StabStabImAChicken
 
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.List;
 
-public class Client{
+public class ConsoleCrawl{
 
     //monster statistics
-    private static String command, commandAttack, commandShop;
+    private static String command, commandAttack, commandInventory;
 
     private static int monsterRatHp = 2;
     private static int monsterWolfHp = 5;
@@ -21,6 +22,9 @@ public class Client{
     private static int monsterDireWolfAtk = 6;
     private static int monsterMimicAtk = 5;
 
+    //items
+    private static String healingPotion = "Healing Potion";
+
     //player statistics
     private static int hp = 20;
     private static int level = 0;
@@ -29,12 +33,12 @@ public class Client{
     private static int mana = 10;
     private static int gold = 0;
 
-    //inventory items
-    private static string[] inventoryX = {"Rusty Knife"};
+    //inventory list
+    static List<String> inventoryY =new ArrayList<String>();
 
     //spells list
-    private static String[] spellsX = {"Healing Word"};
-    //I'm using X after rach of the arrays so the program does not get confused withing their respective functions
+    static List<String> spellsY =new ArrayList<String>();
+    //I'm using Y after each of them to not confuse them
 
 
     //number of rooms
@@ -51,7 +55,7 @@ public class Client{
     //generates gold and distributes it to the player
     public static void findGold(int goldX){
         int generateGold = (int)(6 + Math.random()*goldX);
-        System.out.println("You found" + generateGold + "Gold!");
+        System.out.println("You found" + generateGold + "Gold!\n");
         gold = gold + generateGold;
     }
 
@@ -99,10 +103,10 @@ public class Client{
     public static void roomQuestion(){
         Scanner console = new Scanner(System.in);
         System.out.println("Move on to the next room?");
-        answer = console.next();
-            if (answer.equalsIgnoreCase("y")){
+        command = console.next();
+            if (command.equalsIgnoreCase("y")){
                 nextRoom();
-            }else if (answer.equalsIgnoreCase("n")){
+            }else if (command.equalsIgnoreCase("n")){
                 System.out.println("Ok, take a moment to breath.\n"
                                     + "...\n"
                                     + "ok we're going now");
@@ -118,45 +122,36 @@ public class Client{
     public static void checkHealth(int n){
         hp = hp - n;
         if (hp <= 0){
-            System.out.println("YOU DIED");
-            exit();
+            System.out.println("YOU DIED\n" + 
+                                "Max room: " + rooms);
+            System.exit(0);
         }else {
             System.out.println("You take " + n + " damage!");
         }
     }
 
 
-    //this is just a little function that will check to see if an item or spell is in the inventory
-    public static void checkItemSpell(array a){
-        Scanner console = new Scanner(System.in);
-        for (int i = 0; i < inventoryX.length; i++) {
-            System.out.println(a[i] + ", ");
-         }
-        inventorySpellChoice = console.next();
-        if (inventorySpellChoice.equalsIgnoreCase("Healing Potion")){
-            if (a.contains("Healing Potion")){
-                System.out.println("You used the Healing Potion!");
-                heal(12);
-                a.remove("Healing Potion");
-            }else {
-                System.out.println("You do not have that item in your inventory");
-            }
-        }else if (inventorySpellChoice.equalsIgnoreCase("Healing Potion")){
-            if (a.contains("Healing Word")){
-                System.out.println("You cast Healing Word! Mana was reduced by 5.");
-                heal(12);
-                mana -= 5;
-            }else {
-                System.out.println("You do not have that item in your inventory");
-            }
-        }else {
 
-        }
+
+    //this is just a little function that will check to see if an item or spell is in the inventory
+    public static void checkItemSpell(List<String> a){
+        Scanner console = new Scanner(System.in);
+        a.forEach(System.out::println);
+        commandInventory = console.next();
+        if (a.contains(commandInventory)){
+            System.out.println("You used the " + commandInventory);
+            //(placeholder ability)
+            System.out.println("Unfortunatley, in the Alpha version this item/spell does not have an ability.fuc");
+            a.remove(commandInventory);
+        }else {
+            System.out.println("You do not have that item in your inventory");
+         }
+        
     }
 
 
     //prompts the combat options for the player to choose
-    public static void combatOptions(string combatChoice){
+    public static String combatOptions(String combatChoice){
         Scanner console = new Scanner(System.in);
         System.out.println("What do you do?\n"
                             + "|attack|spell|item|run|\n");
@@ -167,23 +162,22 @@ public class Client{
     //initiated when the player choses to use a spell
     public static void useSpell(){
         System.out.println("Which spell would you like to cast?");
-        checkItemSpell(spellsX);
+        checkItemSpell(spellsY);
     }
 
     //code for when you choose an item, displays inventory and prompts item usage
     public static void openInventory(){
         System.out.println("Inventory open. Please type the name of the item you wish to use.");
-        checkItemSpell(inventoryX);
+        checkItemSpell(inventoryY);
     }
 
 
     //enemy combat generator
-    public static void fightEnemy(string n, int hP, int atk){
-        Scanner console = new Scanner(System.in);
+    public static void fightEnemy(String n, int hP, int atk){
         System.out.println("A " + n + " stands before you!\n");
         if (hP > 0){
             do {
-                choice = combatOptions(combatChoice);
+                String choice = combatOptions(commandAttack);
                 if (choice.equalsIgnoreCase("attack")){
                     System.out.println("You dealt" + attack + "damage to the " + n + "!");
                     hP = hP - attack;
@@ -246,8 +240,8 @@ public class Client{
         command = console.next();
         if(command.equalsIgnoreCase("Y")){
             //user enters first room
-            fightRat();
-            nextRoom();
+            fightEnemy("Rat", monsterRatHp, monsterRatAtk);
+            roomQuestion();
 
         }else if(command.equalsIgnoreCase("N")){
             //user refuses to enter room
@@ -266,6 +260,10 @@ public class Client{
     }
 
     public static void main(String[] args){
+        //adding valies to lists
+        inventoryY.add("Rusty Knife");
+        spellsY.add("Healing Word");
+
         title();
         game();
     }
