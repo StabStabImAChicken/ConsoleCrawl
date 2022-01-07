@@ -55,7 +55,7 @@ public class ConsoleCrawl{
     //generates gold and distributes it to the player
     public static void findGold(int goldX){
         int generateGold = (int)(6 + Math.random()*goldX);
-        System.out.println("You found" + generateGold + "Gold!");
+        System.out.println("You found" + generateGold + "Gold!\n");
         gold = gold + generateGold;
     }
 
@@ -141,7 +141,7 @@ public class ConsoleCrawl{
         if (a.contains(commandInventory)){
             System.out.println("You used the " + commandInventory);
             //(placeholder ability)
-            System.out.println("Unfortunatley, in the Alpha version this item/spell does not have an ability.");
+            System.out.println("Unfortunatley, in the Alpha version this item/spell does not have an ability.fuc");
             a.remove(commandInventory);
         }else {
             System.out.println("You do not have that item in your inventory");
@@ -241,7 +241,7 @@ public class ConsoleCrawl{
         if(command.equalsIgnoreCase("Y")){
             //user enters first room
             fightEnemy("Rat", monsterRatHp, monsterRatAtk);
-            nextRoom();
+            roomQuestion();
 
         }else if(command.equalsIgnoreCase("N")){
             //user refuses to enter room
