@@ -1,8 +1,9 @@
 //Console Crawl
-//property of [Redacted.ink]
+//property of StabStabImAChicken
 
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ConsoleCrawl{
 
@@ -21,6 +22,9 @@ public class ConsoleCrawl{
     private static int monsterDireWolfAtk = 6;
     private static int monsterMimicAtk = 5;
 
+    //items
+    private static String healingPotion = "Healing Potion";
+
     //player statistics
     private static int hp = 20;
     private static int level = 0;
@@ -29,12 +33,12 @@ public class ConsoleCrawl{
     private static int mana = 10;
     private static int gold = 0;
 
-    //inventory items
-    private static String[] inventoryX = {"Rusty Knife"};
+    //inventory list
+    static List<String> inventoryY =new ArrayList<String>();
 
     //spells list
-    private static String[] spellsX = {"Healing Word"};
-    //I'm using X after rach of the arrays so the program does not get confused withing their respective functions
+    static List<String> spellsY =new ArrayList<String>();
+    //I'm using Y after each of them to not confuse them
 
 
     //number of rooms
@@ -130,31 +134,19 @@ public class ConsoleCrawl{
 
 
     //this is just a little function that will check to see if an item or spell is in the inventory
-    public static void checkItemSpell(String[] a){
+    public static void checkItemSpell(List<String> a){
         Scanner console = new Scanner(System.in);
-        for (int i = 0; i < inventoryX.length; i++) {
-            System.out.println(a[i] + ", ");
-         }
+        a.forEach(System.out::println);
         commandInventory = console.next();
-        if (commandInventory.equalsIgnoreCase("Healing Potion")){
-            if (a.contains("Healing Potion")){
-                System.out.println("You used the Healing Potion!");
-                heal(12);
-                a.remove("Healing Potion");
-            }else {
-                System.out.println("You do not have that item in your inventory");
-            }
-        }else if (commandInventory.equalsIgnoreCase("Healing Potion")){
-            if (a.contains("Healing Word")){
-                System.out.println("You cast Healing Word! Mana was reduced by 5.");
-                heal(12);
-                mana -= 5;
-            }else {
-                System.out.println("You do not have that item in your inventory");
-            }
+        if (a.contains(commandInventory)){
+            System.out.println("You used the " + commandInventory);
+            //(placeholder ability)
+            System.out.println("Unfortunatley, in the Alpha version this item/spell does not have an ability.");
+            a.remove(commandInventory);
         }else {
-
-        }
+            System.out.println("You do not have that item in your inventory");
+         }
+        
     }
 
 
@@ -170,13 +162,13 @@ public class ConsoleCrawl{
     //initiated when the player choses to use a spell
     public static void useSpell(){
         System.out.println("Which spell would you like to cast?");
-        checkItemSpell(spellsX);
+        checkItemSpell(spellsY);
     }
 
     //code for when you choose an item, displays inventory and prompts item usage
     public static void openInventory(){
         System.out.println("Inventory open. Please type the name of the item you wish to use.");
-        checkItemSpell(inventoryX);
+        checkItemSpell(inventoryY);
     }
 
 
@@ -268,6 +260,10 @@ public class ConsoleCrawl{
     }
 
     public static void main(String[] args){
+        //adding valies to lists
+        inventoryY.add("Rusty Knife");
+        spellsY.add("Healing Word");
+
         title();
         game();
     }
